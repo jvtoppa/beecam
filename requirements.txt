@@ -1,0 +1,9 @@
+opencv-python
+numpy
+picamera2
+RPi.GPIO
+adafruit-circuitpython-ssd1306
+adafruit-circuitpython-ccs811
+adafruit-circuitpython-bmp280
+adafruit-blinka
+smbus2
