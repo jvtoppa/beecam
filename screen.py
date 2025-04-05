@@ -3,24 +3,6 @@ from board import SCL, SDA
 import busio
 import time
 import adafruit_ssd1306
-import numpy as np
-import math
-val = 30
-def get_temperature():
-    global val
-    val += 10
-    return val 
-
-def get_humidity():
-    return 60  
-
-def get_system_status():
-    return "Tudo OK"  
-
-def button_callback(channel):
-
-    print("Botao pressionado!")
-    page_manager.next()
 
 
 class Pages:
@@ -36,13 +18,16 @@ class Pages:
         """
         Auxiliary function to create the pages
         """
-        value = self.sensor()
+        if not isinstance(self.sensor(), str):
+                value = round(self.sensor(), 2)
+        else:
+                value = self.sensor()
         self.lastValues.append(value)
         if len(self.lastValues) == 11:
             del self.lastValues[0]
         self.display.fill(0)
-        self.display.rect(0, 0, 128, 30, 1)
-        self.display.text(str(self.pgTitle + str(value) + self.unit), 6, 8, 1)
+        self.display.text(str(self.pgTitle), 6, 8, 1)
+        self.display.text((str(value) + self.unit), 6, 17, 1)
         self.display.show()
         
 class managerPages:
@@ -119,7 +104,7 @@ class managerPages:
         """
         Updates current page
         """
-        self.printPast()
+        #self.printPast()
         self.pageList[self.currPage].page_write()
 
     def printPast(self):
@@ -127,49 +112,3 @@ class managerPages:
         Prints last 10 values captured by the sensors
         """
         print(self.pageList[self.currPage].lastValues)
-
-
-i2c = busio.I2C(SCL, SDA)
-
-display = adafruit_ssd1306.SSD1306_I2C(128, 32, i2c)
-
-
-GPIO.setwarnings(False)  
-GPIO.setmode(GPIO.BCM)  # Usando numera��o BCM
-
-pino_botao = 15  # GPIO 15 (pino f�sico 10)
-GPIO.setup(pino_botao, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  
-
-
-
-GPIO.add_event_detect(pino_botao, GPIO.RISING, callback=button_callback, bouncetime=300)  
-
-
-page1 = Pages(1, "Temperatura: ", display, "C", get_temperature)
-page2 = Pages(2, "Umidade: ", display, "%", get_humidity)
-page3 = Pages(3, "Status: ", display, "", get_system_status)
-
-page_manager = managerPages(display)
-page_manager.push(page1)
-page_manager.push(page2)
-page_manager.push(page3)
-
-last_update_time = time.time()  
-update_interval = 2
-
-try:
-     while True:
-        current_time = time.time() 
-
-  
-        if current_time - last_update_time >= update_interval:
-            
-            page_manager.update()
-            last_update_time = current_time
-
-finally:
-    GPIO.cleanup()
-
-
-display.fill(0)
-display.show()
