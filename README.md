@@ -63,7 +63,3 @@ python3 main.py
 
 - Certifique-se de que os sensores estejam corretamente conectados ao barramento I2C.
 - A câmera deve estar ativada e calibrada via `picamera2`.
-
-## Licença
-
-Distribuído sob a Licença MIT. Veja `LICENSE` para mais informações.
