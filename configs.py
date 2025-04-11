@@ -14,4 +14,4 @@ fps = 120
 
 #TABLES
 
-path_to_folder = '' #Change accordingly
+path_to_folder = '/home/neepc/detectabee/data/' #Change accordingly

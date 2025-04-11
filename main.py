@@ -73,14 +73,14 @@ update_interval = 0.4
 
 #SETUP - CSV
 
-header = "Data,IDs,Temp-C,Temp-F,Humidity,CO2,TVOC\n"
+header = "Data,IDs,Temp-C,Temp-F,CO2,TVOC,Vibration\n"
 
-camera_feed_csv = tables.CSVTables(header, "camera_feed")
-station_csv = tables.CSVTables(header, "station_feed")
+camera_feed_csv = tables.CSVTables("camera_feed",header, 5)
+station_csv = tables.CSVTables("station_feed",header, 1)
 
 #SETUP - CAMERA
 
-camera_main = camera.Camera(station_csv, probe)
+camera_main = camera.Camera(camera_feed_csv, probe)
 
 #MAIN LOOP
 

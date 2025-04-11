@@ -3,8 +3,8 @@ import time
 
 class CSVTables:
 
-    def __init__(self, type, header, interval):
-        self.pathCSV = configs.path_to_folder + time.strftime('%Y-%m-%d-%H:%M:%S_') + type + ".csv"
+    def __init__(self, typ, header, interval):
+        self.pathCSV = configs.path_to_folder + time.strftime('%Y-%m-%d-%H:%M:%S_') + typ + ".csv"
         self.headerCSV = header
         self.last_read_time = 0
         self.read_interval = interval
